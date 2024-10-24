@@ -96,12 +96,12 @@ export default function PolishedStockChat() {
   return (
     <div
       className={cn(
-        'flex flex-col justify-start items-start bg-gray-50 w-full md:p-6 transition-all duration-300 ease-in-out ',
+        'flex flex-col justify-start items-start bg-gray-50 w-full md:px-6 transition-all duration-300 ease-in-out ',
         isFullscreen ? 'h-screen' : 'h-[calc(100vh-2rem)]'
       )}
     >
       {/* Main Chat Area */}
-      <main className="flex-1 overflow-auto md:w-full">
+      <main className="flex-1 overflow-auto md:w-full px-5">
         <TickerTape />
         {/* <TickerTape2 /> */}
         <ScrollArea className="h-full">

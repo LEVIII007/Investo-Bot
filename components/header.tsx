@@ -10,7 +10,7 @@ async function UserOrLogin() {
   return (
     <>
       <Link href="/" rel="nofollow">
-        <Image src="/next.svg" alt="Stockbot Logo" width={100} height={30} />
+        <div className='font-bold text-2xl'>Investo-Bot <span className='pb-2'>🤖</span></div>
       </Link>
 
       <div className="flex items-center font-semibold">
