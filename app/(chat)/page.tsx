@@ -204,7 +204,7 @@ export default function PolishedStockChat() {
                                 )
                               }
                               if (toolName === 'displayMarketOverview') {
-                                return <MarketOverview></MarketOverview>
+                                return <MarketOverview key={toolCallId}></MarketOverview>
                               }
                               if (toolName === 'displayMarketTrending') {
                                 return (
