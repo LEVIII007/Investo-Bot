@@ -94,12 +94,20 @@ export default function PolishedStockChat() {
   return (
     <div
       className={cn(
+<<<<<<< HEAD
         'flex flex-col justify-start items-start bg-gradient-to-br from-gray-50 to-gray-100 w-full md:px-6 transition-all duration-300 ease-in-out',
+=======
+        'flex flex-col justify-start items-start bg-gray-50 w-full md:px-6 transition-all duration-300 ease-in-out ',
+>>>>>>> 90ecc3937263132b1b3bb2f673c9b36ae630ddb0
         isFullscreen ? 'h-screen' : 'h-[calc(100vh-2rem)]'
       )}
     >
       {/* Main Chat Area */}
+<<<<<<< HEAD
       <main className="flex-1 overflow-auto w-full px-4 md:px-0">
+=======
+      <main className="flex-1 overflow-auto md:w-full px-5">
+>>>>>>> 90ecc3937263132b1b3bb2f673c9b36ae630ddb0
         <TickerTape />
         <ScrollArea className="h-full">
           <div className="flex flex-col min-h-full py-6 space-y-6 max-w-4xl mx-auto">
@@ -169,6 +177,7 @@ export default function PolishedStockChat() {
                               toolInvocation
 
                             if (state === 'result') {
+<<<<<<< HEAD
                               switch (toolName) {
                                 case 'displayStockPrice':
                                 case 'displayStockChart':
@@ -248,6 +257,94 @@ export default function PolishedStockChat() {
                                   )
                                 default:
                                   return null
+=======
+                              if (toolName === 'displayStockPrice') {
+                                const { result } = toolInvocation
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <StockPrice symbol={result.symbol} />
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'displayETFHeatmap') {
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <ETFHeatmap />
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'displayMarketHeatmap') {
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <MarketHeatmap></MarketHeatmap>
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'displayMarketOverview') {
+                                return <MarketOverview key={toolCallId}></MarketOverview>
+                              }
+                              if (toolName === 'displayMarketTrending') {
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <MarketTrending />
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'displayStockChart') {
+                                const { result } = toolInvocation
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <StockPrice symbol={result.symbol} />
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'displayStockNews') {
+                                const { result } = toolInvocation
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <StockNews symbol={result.symbol} />
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'displayStockScreener') {
+                                const { result } = toolInvocation
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="flex items-center justify-center m-3 p-3 size-full"
+                                  >
+                                    <StockScreener />
+                                  </div>
+                                )
+                              }
+                              if (toolName === 'finalAnswer') {
+                                const { result } = toolInvocation
+                                return (
+                                  <div key={toolCallId}>
+
+                                    <ReactMarkdown>{result}</ReactMarkdown>
+                                    {/* {result} */}
+                                  </div>
+                                );
+>>>>>>> 90ecc3937263132b1b3bb2f673c9b36ae630ddb0
                               }
                             }
                             return null
