@@ -18,12 +18,11 @@ import { StockNews } from '@/components/tradingview/stock-news'
 import { StockScreener } from '@/components/tradingview/stock-screener'
 import ReactMarkdown from 'react-markdown'
 import { TickerTape } from '@/components/tradingview/ticker-tape'
-import { TickerTape2 } from '@/components/tradingview/ticker-tape2'
 
 export default function PolishedStockChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [resetChat, setResetChat] = useState(false) // For resetting chat on button click
+  const [resetChat, setResetChat] = useState(false)
 
   const {
     messages,
@@ -54,7 +53,6 @@ export default function PolishedStockChat() {
     scrollToBottom()
   }, [messages])
 
-  // Suggested queries to add back
   const suggestedQueries = [
     {
       title: 'What is the price',
@@ -89,23 +87,22 @@ export default function PolishedStockChat() {
   }
 
   const handleResetChat = () => {
-    setResetChat(true) // Toggle to reset chat
-    setTimeout(() => setResetChat(false), 100) // Reset chat after form submission clears
+    setResetChat(true)
+    setTimeout(() => setResetChat(false), 100)
   }
 
   return (
     <div
       className={cn(
-        'flex flex-col justify-start items-start bg-gray-50 w-full md:p-6 transition-all duration-300 ease-in-out ',
+        'flex flex-col justify-start items-start bg-gradient-to-br from-gray-50 to-gray-100 w-full md:px-6 transition-all duration-300 ease-in-out',
         isFullscreen ? 'h-screen' : 'h-[calc(100vh-2rem)]'
       )}
     >
       {/* Main Chat Area */}
-      <main className="flex-1 overflow-auto md:w-full">
+      <main className="flex-1 overflow-auto w-full px-4 md:px-0">
         <TickerTape />
-        {/* <TickerTape2 /> */}
         <ScrollArea className="h-full">
-          <div className="flex flex-col min-h-full md:p-6 space-y-6">
+          <div className="flex flex-col min-h-full py-6 space-y-6 max-w-4xl mx-auto">
             <AnimatePresence>
               {messages.length <= 1 || resetChat ? (
                 <motion.div
@@ -115,25 +112,25 @@ export default function PolishedStockChat() {
                   transition={{ duration: 0.3 }}
                   className="flex flex-col items-center justify-center h-full"
                 >
-                  <h2 className="text-3xl font-semibold mb-4">
+                  <h2 className="text-3xl font-semibold mb-4 text-gray-800">
                     Welcome to StockBot
                   </h2>
-                  <p className="text-lg text-muted-foreground mb-8">
+                  <p className="text-lg text-gray-600 mb-8 text-center">
                     Get real-time stock information and market insights powered
                     by AI
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl w-full">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
                     {suggestedQueries.map((query, index) => (
                       <Button
                         key={index}
                         variant="outline"
-                        className="h-auto p-4 flex flex-col items-start hover:bg-gray-100 transition-colors duration-200"
+                        className="h-auto p-4 flex flex-col items-start hover:bg-gray-100 transition-colors duration-200 shadow-sm"
                         onClick={() => handleSuggestedQuery(query.query)}
                       >
-                        <span className="font-medium text-lg">
+                        <span className="font-medium text-lg text-gray-800">
                           {query.title}
                         </span>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-gray-500">
                           {query.subtitle}
                         </span>
                       </Button>
@@ -141,7 +138,7 @@ export default function PolishedStockChat() {
                   </div>
                 </motion.div>
               ) : (
-                <div className="w-full  space-y-7 mx-5">
+                <div className="w-full space-y-7">
                   {messages.map((message, index) => (
                     <motion.div
                       key={message.id}
@@ -164,7 +161,7 @@ export default function PolishedStockChat() {
                         )}
                       >
                         <div className="whitespace-pre-wrap">
-                          {message.content}
+                          <ReactMarkdown>{message.content}</ReactMarkdown>
                         </div>
                         <div>
                           {message.toolInvocations?.map(toolInvocation => {
@@ -172,94 +169,88 @@ export default function PolishedStockChat() {
                               toolInvocation
 
                             if (state === 'result') {
-                              if (toolName === 'displayStockPrice') {
-                                const { result } = toolInvocation
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <StockPrice symbol={result.symbol} />
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'displayETFHeatmap') {
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <ETFHeatmap />
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'displayMarketHeatmap') {
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <MarketHeatmap></MarketHeatmap>
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'displayMarketOverview') {
-                                return <MarketOverview></MarketOverview>
-                              }
-                              if (toolName === 'displayMarketTrending') {
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <MarketTrending />
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'displayStockChart') {
-                                const { result } = toolInvocation
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <StockPrice symbol={result.symbol} />
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'displayStockNews') {
-                                const { result } = toolInvocation
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <StockNews symbol={result.symbol} />
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'displayStockScreener') {
-                                const { result } = toolInvocation
-                                return (
-                                  <div
-                                    key={toolCallId}
-                                    className="flex items-center justify-center m-3 p-3 size-full"
-                                  >
-                                    <StockScreener />
-                                  </div>
-                                )
-                              }
-                              if (toolName === 'finalAnswer') {
-                                const { result } = toolInvocation
-                                return (
-                                  <div key={toolCallId}>
-
-                                    <ReactMarkdown>{result}</ReactMarkdown>
-                                    {/* {result} */}
-                                  </div>
-                                );
+                              switch (toolName) {
+                                case 'displayStockPrice':
+                                case 'displayStockChart':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="flex items-center justify-center m-3 p-3 w-full"
+                                    >
+                                      <StockPrice
+                                        symbol={
+                                          (toolInvocation as any).result.symbol
+                                        }
+                                      />
+                                    </div>
+                                  )
+                                case 'displayETFHeatmap':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="flex items-center justify-center m-3 p-3 w-full"
+                                    >
+                                      <ETFHeatmap />
+                                    </div>
+                                  )
+                                case 'displayMarketHeatmap':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="flex items-center justify-center m-3 p-3 w-full"
+                                    >
+                                      <MarketHeatmap />
+                                    </div>
+                                  )
+                                case 'displayMarketOverview':
+                                  return <MarketOverview key={toolCallId} />
+                                case 'displayMarketTrending':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="flex items-center justify-center m-3 p-3 w-full"
+                                    >
+                                      <MarketTrending />
+                                    </div>
+                                  )
+                                case 'displayStockNews':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="flex items-center justify-center m-3 p-3 w-full"
+                                    >
+                                      <StockNews
+                                        symbol={
+                                          (toolInvocation as any).result.symbol
+                                        }
+                                      />
+                                    </div>
+                                  )
+                                case 'displayStockScreener':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="flex items-center justify-center m-3 p-3 w-full"
+                                    >
+                                      <StockScreener />
+                                    </div>
+                                  )
+                                case 'finalAnswer':
+                                  return (
+                                    <div
+                                      key={toolCallId}
+                                      className="prose prose-sm max-w-none"
+                                    >
+                                      <ReactMarkdown>
+                                        {(toolInvocation as any).result}
+                                      </ReactMarkdown>
+                                    </div>
+                                  )
+                                default:
+                                  return null
                               }
                             }
+                            return null
                           })}
                         </div>
                       </div>
@@ -272,14 +263,13 @@ export default function PolishedStockChat() {
                       className="flex justify-start"
                     >
                       <div className="rounded-lg px-6 py-4 bg-white shadow-sm">
-                        <div className="flex items-center gap-2 text-lg text-muted-foreground">
-                          <Loader2 className="size-4 animate-spin" />
+                        <div className="flex items-center gap-2 text-lg text-gray-500">
+                          <Loader2 className="w-4 h-4 animate-spin" />
                           StockBot is thinking...
                         </div>
                       </div>
                     </motion.div>
                   )}
-                  {/* <div ref={messagesEndRef} /> */}
                 </div>
               )}
             </AnimatePresence>
@@ -288,71 +278,71 @@ export default function PolishedStockChat() {
       </main>
 
       {/* Input Area */}
-      <div className="border-t bg-white/95 backdrop-blur mb-10 supports-[backdrop-filter]:bg-white/60 w-full">
+      <div className="border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 w-full sticky bottom-0 z-10">
         <div className="max-w-4xl mx-auto p-4">
           <form
-        onSubmit={e => {
-          e.preventDefault()
-          handleSubmit(e)
-        }}
-        className="flex gap-4"
+            onSubmit={e => {
+              e.preventDefault()
+              handleSubmit(e)
+            }}
+            className="flex gap-4 items-center"
           >
-        <Button
-          type="button"
-          size="icon"
-          variant="ghost"
-          className="flex-none hover:bg-gray-100 transition-colors duration-200"
-          onClick={handleResetChat}
-        >
-          <ResetIcon></ResetIcon>
-        </Button>
-        <Input
-          value={input}
-          onChange={handleInputChange}
-          placeholder="Send a message..."
-          className="flex-1 text-lg focus:ring-2 focus:ring-primary/50 transition-shadow duration-200"
-        />
-        <AnimatePresence>
-          {input.trim() && (
-            <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.2 }}
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              className="flex-none hover:bg-gray-100 transition-colors duration-200"
+              onClick={handleResetChat}
             >
-          <Button
-            type="submit"
-            size="icon"
-            disabled={isLoading}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200"
-          >
-            <ArrowUpCircle className="size-5" />
-          </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        {isLoading && (
-          <Button
-            type="button"
-            size="icon"
-            variant="destructive"
-            onClick={stop}
-            className="hover:bg-destructive/90 transition-colors duration-200"
-          >
-            <StopCircle className="size-5" />
-          </Button>
-        )}
-        {!isLoading && messages.length > 1 && (
-          <Button
-            type="button"
-            size="icon"
-            variant="outline"
-            onClick={() => reload()}
-            className="hover:bg-gray-100 transition-colors duration-200"
-          >
-            <RefreshCcw className="size-5" />
-          </Button>
-        )}
+              <ResetIcon className="w-5 h-5" />
+            </Button>
+            <Input
+              value={input}
+              onChange={handleInputChange}
+              placeholder="Send a message..."
+              className="flex-1 text-lg focus:ring-2 focus:ring-primary/50 transition-shadow duration-200"
+            />
+            <AnimatePresence>
+              {input.trim() && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Button
+                    type="submit"
+                    size="icon"
+                    disabled={isLoading}
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors duration-200"
+                  >
+                    <ArrowUpCircle className="w-5 h-5" />
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {isLoading && (
+              <Button
+                type="button"
+                size="icon"
+                variant="destructive"
+                onClick={stop}
+                className="hover:bg-destructive/90 transition-colors duration-200"
+              >
+                <StopCircle className="w-5 h-5" />
+              </Button>
+            )}
+            {!isLoading && messages.length > 1 && (
+              <Button
+                type="button"
+                size="icon"
+                variant="outline"
+                onClick={() => reload()}
+                className="hover:bg-gray-100 transition-colors duration-200"
+              >
+                <RefreshCcw className="w-5 h-5" />
+              </Button>
+            )}
           </form>
         </div>
       </div>

@@ -66,9 +66,6 @@ Key Responsibilities:
 - User: "What's the latest news sentiment on Tesla?"
   Assistant: { "tool_call": { "id": "pending", "type": "function", "function": { "name": "getNewsSentiment" }, "parameters": { "symbol": "TSLA" } } }
 
-- User: "Find recent stock news on Vodafone."
-  Assistant: { "tool_call": { "id": "pending", "type": "function", "function": { "name": "getStockNews" }, "parameters": { "symbol": "VOD" } } }
-
 - User: "What is the current market overview?"
   Assistant: { "tool_call": { "id": "pending", "type": "function", "function": { "name": "displayMarketOverview" }, "parameters": { "symbols": ["AAPL", "MSFT"] } } }
   

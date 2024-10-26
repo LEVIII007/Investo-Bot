@@ -4,7 +4,7 @@ const { tavily } = require("@tavily/core");
 import { getNewsSentiment, fetchReport, fetchEarnings } from '../app/api/chat/reportService';
 const yahooFinance = require('yahoo-finance2').default;
 
-const tvly = tavily({ apiKey: "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" });
+const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
 
 export const finalAnswer = createTool({
   description: 'This tool is used to provide the very detailed and explainatory final answer to the user. input to this function must be in markdown format.',
